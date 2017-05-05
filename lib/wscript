@@ -1,0 +1,17 @@
+#! /usr/bin/env python
+# encoding: utf-8
+
+def options(ctx):
+    ctx.load('compiler_cxx')
+
+def configure(ctx):
+    ctx.load('compiler_cxx')
+
+    ctx.check_cxx(lib='Irrlicht', uselib_store='Irrlicht', mandatory=True)
+
+def build(ctx):
+    ctx.stlib(source=ctx.path.ant_glob('src/**/*.cpp'),
+              target='3drpg_lib',
+              includes=['include'],
+              export_includes=['include'],
+              use='Irrlicht')

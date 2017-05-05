@@ -1,0 +1,15 @@
+#! /usr/bin/env python
+# encoding: utf-8
+
+def options(ctx):
+    ctx.load('compiler_cxx')
+
+def configure(ctx):
+    ctx.load('compiler_cxx')
+
+def build(ctx):
+    ctx.program(source=ctx.path.ant_glob('src/**/*.cpp'),
+                target='3drpg',
+                includes=['include'],
+                use=['3drpg_lib'],
+                vnum='0.1')
