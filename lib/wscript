@@ -8,10 +8,19 @@ def configure(ctx):
     ctx.load('compiler_cxx')
 
     ctx.check_cxx(lib='Irrlicht', uselib_store='Irrlicht', mandatory=True)
+    ctx.env.append_value('RPG_LIB', ['Irrlicht'])
+
+    import sys;
+    if sys.platform == 'linux':
+        ctx.check_cxx(lib='pthread', uselib_store='pthread', mandatory=True)
+        ctx.env.append_value('RPG_LIB', ['pthread'])
+
+        ctx.check_cxx(lib='dl', uselib_store='dl', mandatory=True);
+        ctx.env.append_value('RPG_LIB', ['dl'])
 
 def build(ctx):
     ctx.stlib(source=ctx.path.ant_glob('src/**/*.cpp'),
-              target='3drpg_lib',
+              target='3drpg',
               includes=['include'],
               export_includes=['include'],
-              use='Irrlicht')
+              use=ctx.env.RPG_LIB)

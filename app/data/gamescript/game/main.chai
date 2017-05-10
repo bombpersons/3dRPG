@@ -1,0 +1,16 @@
+def init() {
+  // This is the start of our game!
+  // Do any initialization stuff here that we need to do.
+  print("Initializing test game!");
+
+  // Then do whatever we want. Most games probably want to just show
+  // the title screen.
+  print("Showing the title screen!");
+}
+
+def newGame() {
+  // Called when the user starts a new game.
+  // The statemanager has already been cleared, so just
+  // load whatever scene is the start of your game!
+  // getSceneManager.showScene("start");
+}

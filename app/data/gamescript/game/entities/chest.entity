@@ -1,0 +1,16 @@
+class Chest {
+  Chest() {
+    this.opened = false;
+  }
+
+  def update(float dt) {
+    // called from c++
+  }
+
+  def interact() {
+    open();
+  }
+
+  var opened;
+  def open() { this.opened = true; }
+}

@@ -8,8 +8,12 @@ def configure(ctx):
     ctx.load('compiler_cxx')
 
 def build(ctx):
+    # Copy over everything in our data folder.
+    for file in ctx.path.ant_glob('data/**/*'):
+        ctx(feature='subst', name='data_' + file.name, rule='cp ${SRC} ${TGT}', source=file, target=file.get_bld())
+
     ctx.program(source=ctx.path.ant_glob('src/**/*.cpp'),
-                target='3drpg',
+                target='3drpg_app',
                 includes=['include'],
-                use=['3drpg_lib'],
+                use=['3drpg'],
                 vnum='0.1')
