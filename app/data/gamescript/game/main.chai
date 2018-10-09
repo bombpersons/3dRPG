@@ -14,6 +14,7 @@ def askRiddle(riddle, success, failure) {
 
 def makeChest(scene, name, contents) {
   var chest := scene.newEntity(name);
+  chest.setModel("data/models/test.obj");
   chest.addEvent("open", giveEvent("Sword"));
   return chest;
 }
@@ -30,14 +31,17 @@ class Scene_Start {
 
   def Scene_Start() {
     print("Scene constructor!");
+
+    // Force the FPS debug camera...
+    getGraphics().useDebugCamera();
   }
 
   def init(scene) {
     print("Scene initialization!");
 
     print("Create some entities!");
-    var m_chest := makeRiddleChest(scene, "Chest", "Sword", "Asking a riddle!");
-    m_chest.interact();
+    this.m_chest := makeRiddleChest(scene, "Chest", "Sword", "Asking a riddle!");
+    this.m_chest.interact();
   }
 
   def destroy() {

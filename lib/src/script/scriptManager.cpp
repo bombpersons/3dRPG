@@ -6,6 +6,8 @@
 #include <3drpg/scene/sceneManager.hpp>
 #include <3drpg/state/stateManager.hpp>
 
+#include <3drpg/graphics/graphics.hpp>
+
 #include <3drpg/util/filepaths.hpp>
 
 namespace rpg {
@@ -16,6 +18,7 @@ namespace rpg {
     // Initialize chaiscript here!
     SceneManager::InitChai(m_chai);
     StateManager::InitChai(m_chai);
+    Graphics::InitChai(m_chai);
 
     // Specific functions the game instance wants..
     game->initChai(m_chai);

@@ -97,13 +97,22 @@ namespace rpg {
     };
   }
 
+  void Graphics::InitChai(chaiscript::ChaiScript& chai) {
+    chai.add(chaiscript::user_type<Graphics>(), "Graphics");
+
+    // Add some functions here...
+    chai.add(chaiscript::fun(&Graphics::useNormalCamera), "useNormalCamera");
+    chai.add(chaiscript::fun(&Graphics::useDebugCamera), "useDebugCamera");
+  }
+
   Graphics::Graphics(irr::IrrlichtDevice* device) {
     m_device = device;
     m_driver = m_device->getVideoDriver();
     m_smgr = m_device->getSceneManager();
     m_guienv = m_device->getGUIEnvironment();
 
-    m_smgr->addCameraSceneNode(0, irr::core::vector3df(0, 30, -40), irr::core::vector3df(0, 5, 0));
+    m_camera = nullptr;
+    useNormalCamera();
   }
 
   Graphics::~Graphics() {
@@ -116,6 +125,22 @@ namespace rpg {
   }
   void Graphics::deleteDrawable(Drawable* drawable) {
     delete drawable;
+  }
+
+  void Graphics::useNormalCamera() {
+    if (m_camera) {
+      m_camera->remove();
+      delete m_camera;
+    }
+  }
+
+  void Graphics::useDebugCamera() {
+    if (m_camera) {
+      m_camera->remove();
+      delete m_camera;
+    }
+
+    m_smgr->addCameraSceneNodeFPS();
   }
 
   void Graphics::draw() {

@@ -118,5 +118,10 @@ namespace rpg {
       [this]() -> SceneManager& {
         return getScene();
       }), "getSceneManager");
+
+    chai.add(chaiscript::fun(
+      [this]() -> Graphics& {
+        return getGraphics();
+      }), "getGraphics");
   }
 }

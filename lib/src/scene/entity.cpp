@@ -13,6 +13,9 @@ namespace rpg {
 
     chai.add(chaiscript::fun(&Entity::callEvent), "callEvent");
 
+    // Change the model / animation
+    chai.add(chaiscript::fun(&Entity::_setModel), "setModel");
+
     // Trigger an interaction on an entity.
     chai.add(chaiscript::fun(&Entity::interact), "interact");
   }
@@ -21,10 +24,13 @@ namespace rpg {
     m_game = game;
     m_scene = scene;
 
-    m_modelFile = "";
+    m_drawable = game->getGraphics().createDrawable();
   }
 
   Entity::~Entity() {
+    if (m_drawable && m_game) {
+      m_game->getGraphics().deleteDrawable(m_drawable);
+    }
   }
 
   void Entity::interact() {
@@ -45,5 +51,11 @@ namespace rpg {
 
   void Entity::_setInteractEvent(const std::string& name) {
     m_interactionEvent = name;
+  }
+
+  void Entity::_setModel(const std::string& path) {
+    if (m_drawable) {
+      m_drawable->loadModel(path.c_str());
+    }
   }
 }

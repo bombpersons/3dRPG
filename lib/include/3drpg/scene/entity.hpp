@@ -1,6 +1,8 @@
 #ifndef RPG_INCLUDED_ENTITY
 #define RPG_INCLUDED_ENTITY
 
+#include <3drpg/graphics/drawable/drawable.hpp>
+
 #include <map>
 #include <glm/glm.hpp>
 #include <chaiscript/chaiscript.hpp>
@@ -25,13 +27,15 @@ namespace rpg {
     void _addEvent(const std::string& name, EventFunc func);
     void _setInteractEvent(const std::string& name);
 
+    void _setModel(const std::string& path);
+
   private:
     Game* m_game;
     Scene* m_scene;
     chaiscript::Boxed_Value m_scriptObj;
 
-    // A model to load for this entity.
-    const char* m_modelFile;
+    // The model of this entity.
+    Drawable* m_drawable;
 
     // A transform for this entity.
     glm::mat4 m_transform;
