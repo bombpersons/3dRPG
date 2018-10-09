@@ -12,6 +12,9 @@ namespace rpg {
     // Create the graphics device.
     m_graphics = new Graphics(m_device);
     m_fullscreen = fullscreen;
+
+    Drawable* draw = m_graphics->createDrawable();
+    draw->loadModel("data/models/test.obj");
   }
 
   Window::~Window() {

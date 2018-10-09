@@ -1,4 +1,5 @@
 #include <3drpg/state/stateManager.hpp>
+#include <3drpg/game.hpp>
 
 namespace rpg {
   void StateManager::InitChai(chaiscript::ChaiScript& chai) {
@@ -7,7 +8,7 @@ namespace rpg {
     // Add some functions here...
   }
 
-  StateManager::StateManager() {
+  StateManager::StateManager(Game* game) {
 
   }
 

@@ -1,5 +1,6 @@
 #include <3drpg/game.hpp>
 
+#include <memory>
 #include <chrono>
 #include <sstream>
 #include <cassert>
@@ -7,7 +8,10 @@
 using namespace irr;
 
 namespace rpg {
-  Game::Game(const char* gamepath, const char* configpath) {
+  Game::Game(const char* gamepath, const char* configpath)
+    : m_scriptManager(this)
+    , m_sceneManager(nullptr)
+    , m_stateManager(nullptr) {
     // TODO load graphics settings from config.
     m_window = new Window(600, 800, false);
     m_graphics = m_window->getGraphics();
@@ -33,13 +37,29 @@ namespace rpg {
 
   // Run the game script initialize function.
   void Game::init() {
+    // Create managers
+    m_sceneManager = new SceneManager(this);
+    m_stateManager = new StateManager(this);
+
     // Attempt to run the init function specified in the gamescript.
     getScript().eval("init();");
   }
 
+  void Game::destroy() {
+    // Attempt to run the destroy function in the gamescript.
+    getScript().eval("destroy();");
+
+    delete m_sceneManager;
+    delete m_stateManager;
+
+    m_sceneManager = nullptr;
+    m_stateManager = nullptr;
+  }
+
   // Update and draw the game.
   void Game::update(float dt) {
-
+    // Update the scene manager.
+    m_sceneManager->update(dt);
   }
   void Game::draw(float dt) {
     // Draw the scene.
@@ -75,6 +95,10 @@ namespace rpg {
         update(dt.count());
         draw(dt.count());
       }
+
+      // destroy
+      destroy();
+
     };
 
     // Create a thread to run this function in.
@@ -86,5 +110,13 @@ namespace rpg {
     if (m_runThread) {
       m_runThread->join();
     }
+  }
+
+  void Game::initChai(chaiscript::ChaiScript& chai) {
+    // Bind some functions to retrieve manager instances..
+    chai.add(chaiscript::fun(
+      [this]() -> SceneManager& {
+        return getScene();
+      }), "getSceneManager");
   }
 }

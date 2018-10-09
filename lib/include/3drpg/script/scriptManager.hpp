@@ -4,17 +4,21 @@
 #include <chaiscript/chaiscript.hpp>
 
 namespace rpg {
+  class Game;
   class ScriptManager {
   public:
-    ScriptManager();
+    ScriptManager(Game* game);
     virtual ~ScriptManager();
 
     // Update
     void update(float dt);
 
     // Evaluate code.
-    bool evalFile(const char* file);
-    bool eval(const char* file);
+    chaiscript::Boxed_Value evalFile(const char* file);
+    chaiscript::Boxed_Value eval(const char* code);
+
+    // Get the chai interpreter.
+    chaiscript::ChaiScript& chai() { return m_chai; }
 
   private:
     // The chaiscript interpreter.

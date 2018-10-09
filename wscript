@@ -26,9 +26,9 @@ def configure(ctx):
     __recurse(ctx)
 
 def build(ctx):
-    if ctx.options.debug == 'true':
-        ctx.env.append_value('CFLAGS', ['-g', '-Wall'])
+    if ctx.options.debug == 'True':
+        ctx.env.append_value('CXXFLAGS', ['-g3', '-Wall'])
     else:
-        ctx.env.append_value('CFLAGS', ['-O3'])
+        ctx.env.append_value('CXXFLAGS', ['-O3'])
 
     __recurse(ctx)

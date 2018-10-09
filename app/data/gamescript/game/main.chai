@@ -1,3 +1,54 @@
+def giveEvent(contents) {
+  return fun[contents](entity) {
+    print("You opened the chest!");
+    print("You found a ${contents}");
+  };
+}
+
+def askRiddle(riddle, success, failure) {
+  return fun[riddle, success, failure](entity) {
+    print(riddle);
+    entity.callEvent(success);
+  }
+}
+
+def makeChest(scene, name, contents) {
+  var chest := scene.newEntity(name);
+  chest.addEvent("open", giveEvent("Sword"));
+  return chest;
+}
+
+def makeRiddleChest(scene, name, contents, riddle) {
+  var chest := makeChest(scene, name, contents);
+  chest.addEvent("riddle", askRiddle(riddle, "open", ""));
+  chest.setInteractEvent("riddle");
+  return chest;
+}
+
+class Scene_Start {
+  var m_chest;
+
+  def Scene_Start() {
+    print("Scene constructor!");
+  }
+
+  def init(scene) {
+    print("Scene initialization!");
+
+    print("Create some entities!");
+    var m_chest := makeRiddleChest(scene, "Chest", "Sword", "Asking a riddle!");
+    m_chest.interact();
+  }
+
+  def destroy() {
+    print("Scene destruction!");
+  }
+
+  def update(dt) {
+    //print("Update rate: ${1/dt}");
+  }
+};
+
 def init() {
   // This is the start of our game!
   // Do any initialization stuff here that we need to do.
@@ -6,11 +57,22 @@ def init() {
   // Then do whatever we want. Most games probably want to just show
   // the title screen.
   print("Showing the title screen!");
+
+  // Actually, start the game straight away.
+  newGame();
+}
+
+def destroy() {
+  // This is the closing down of our game.
+  // Do whatever we want to do here.
+  // The scene manager and state manager still exist
+  // at this point so you can save here as well.
+  print("Game is shutting down!");
 }
 
 def newGame() {
   // Called when the user starts a new game.
   // The statemanager has already been cleared, so just
   // load whatever scene is the start of your game!
-  // getSceneManager.showScene("start");
+  getSceneManager().showScene("Start");
 }

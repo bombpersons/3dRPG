@@ -1,0 +1,11 @@
+class Scene_Start {
+  Scene_Start() {
+    print("Scene Start!");
+  }
+
+  def update(float dt) {
+  }
+
+  def interact() {
+  }
+}

@@ -10,11 +10,12 @@
 #include <3drpg/scene/entity.hpp>
 
 namespace rpg {
+  class Game;
   class StateManager {
   public:
     static void InitChai(chaiscript::ChaiScript& chai);
   public:
-    StateManager();
+    StateManager(Game* game);
     virtual ~StateManager();
 
     // Get variables.
