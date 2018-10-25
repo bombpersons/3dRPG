@@ -58,6 +58,9 @@ namespace rpg {
       }
 
       virtual ~GraphicsDrawable() {
+        if (!m_modelPath.empty()) {
+          ModelLoader::unloadAnimatedModel(m_smgr, m_modelPath.c_str());
+        }
       }
 
       bool loadModel(const char* file) override {
@@ -67,6 +70,7 @@ namespace rpg {
         // Unload the existing model if it exists..
         if (!m_modelPath.empty()) {
           ModelLoader::unloadAnimatedModel(m_smgr, m_modelPath.c_str());
+          m_modelPath = "";
         }
 
         // Load the new one.

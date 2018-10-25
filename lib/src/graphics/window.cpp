@@ -4,7 +4,8 @@
 
 namespace rpg {
   Window::Window(int width, int height, bool fullscreen) {
-    m_device = irr::createDevice(irr::video::EDT_SOFTWARE, irr::core::dimension2d<irr::u32>(640, 480), 16, false, false, false, 0);
+    m_inputManager = new InputManager();
+    m_device = irr::createDevice(irr::video::EDT_SOFTWARE, irr::core::dimension2d<irr::u32>(640, 480), 16, false, false, false, m_inputManager);
     if (!m_device) {
       throw "Error creating irrlicht device!\n";
     }
@@ -21,6 +22,9 @@ namespace rpg {
     }
 
     if (m_device) {
+      delete m_inputManager;
+      m_inputManager = nullptr;
+
       m_device->drop();
       m_device = nullptr;
     }
@@ -44,6 +48,10 @@ namespace rpg {
 
   Graphics* Window::getGraphics() {
     return m_graphics;
+  }
+
+  InputManager& Window::getInput() {
+    return *m_inputManager;
   }
 
   bool Window::run() {

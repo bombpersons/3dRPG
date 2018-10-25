@@ -8,6 +8,7 @@ namespace rpg {
 
     // Add some functions here...
     chai.add(chaiscript::fun(&Scene::_newEntity), "newEntity");
+    chai.add(chaiscript::fun(&Scene::_setPlayerEntity), "setPlayerEntity");
 
     // Initialize entity scripting.
     Entity::InitChai(chai);
@@ -47,14 +48,30 @@ namespace rpg {
   void Scene::update(float dt) {
     auto& chai = m_game->getScript().chai();
 
+    // If an entity has been marked as the controlled entity, respond to input.
+    if (!m_playerEntityName.empty()) {
+      Entity* player = findEntity(m_playerEntityName);
+
+      printf("The player is %s\n", m_playerEntityName.c_str());
+    }
+
     // Call the instances update function.
     auto updateFunc = chai.eval<std::function<void(chaiscript::Boxed_Value&, float)>>("update");
     updateFunc(m_scriptObj, dt);
   }
 
+  Entity* Scene::findEntity(const std::string& uniqueName) {
+    auto it = m_entities.find(uniqueName);
+    if (it != m_entities.end()) {
+      return it->second;
+    }
+
+    return nullptr;
+  }
+
   Entity* Scene::_newEntity(const std::string& uniqueName) {
     // If the entity already exists, return null;
-    if (m_entities.find(uniqueName) != m_entities.end())
+    if (findEntity(uniqueName))
       return nullptr;
 
     // Create a new entity.
@@ -64,5 +81,12 @@ namespace rpg {
     printf("Created entity with name %s\n", uniqueName.c_str());
 
     return entity;
+  }
+
+  void Scene::_setPlayerEntity(const std::string& playerName) {
+    m_playerEntityName = playerName;
+    if (!findEntity(m_playerEntityName)) {
+      printf("Player entity set to %s but that entity doesn't exist (yet)!\n");
+    }
   }
 }

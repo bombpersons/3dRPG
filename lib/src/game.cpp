@@ -60,6 +60,10 @@ namespace rpg {
   void Game::update(float dt) {
     // Update the scene manager.
     m_sceneManager->update(dt);
+
+    // Update the input.
+    getWindow().getInput().update();
+
   }
   void Game::draw(float dt) {
     // Draw the scene.

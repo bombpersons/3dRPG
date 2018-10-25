@@ -42,6 +42,9 @@ class Scene_Start {
     print("Create some entities!");
     this.m_chest := makeRiddleChest(scene, "Chest", "Sword", "Asking a riddle!");
     this.m_chest.interact();
+
+    // Uh.. why not make the player a chest?
+    scene.setPlayerEntity("Chest");
   }
 
   def destroy() {

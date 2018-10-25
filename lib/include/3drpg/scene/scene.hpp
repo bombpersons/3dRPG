@@ -22,7 +22,10 @@ namespace rpg {
     void draw();
 
   private:
+    Entity* findEntity(const std::string& uniqueName);
+
     Entity* _newEntity(const std::string& uniqueName);
+    void _setPlayerEntity(const std::string& playerName);
 
   private:
     // The game we belong to.
@@ -39,6 +42,9 @@ namespace rpg {
 
     // Script
     const char* m_scriptFile;
+
+    // The name of the entity that represents the player.
+    std::string m_playerEntityName;
 
     // List of entities to load here.
     std::map<std::string, Entity*> m_entities;

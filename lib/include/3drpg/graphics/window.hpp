@@ -2,6 +2,7 @@
 #define RPG_INCLUDED_WINDOW
 
 #include <3drpg/graphics/graphics.hpp>
+#include <3drpg/input/input.hpp>
 
 #include <irrlicht/irrlicht.h>
 #include <glm/glm.hpp>
@@ -21,6 +22,9 @@ namespace rpg {
     // Create the graphics device.
     Graphics* getGraphics();
 
+    // Get the input manager;
+    InputManager& getInput();
+
     // Update the window.
     bool run();
 
@@ -31,6 +35,9 @@ namespace rpg {
 
     // The graphics device.
     Graphics* m_graphics;
+
+    // The input manager.
+    InputManager* m_inputManager;
   };
 }
 
